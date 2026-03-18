@@ -76,6 +76,7 @@ button {
     border: none;
     font-size: 22px;
     cursor: pointer;
+    color: black; /* arrow is black */
 }
 
 .hidden { display: none; }
@@ -88,10 +89,17 @@ textarea { width: 100%; height: 80px; margin-top: 10px; padding: 8px; border-rad
 
 <div class="container">
 
-<h1>Rate the dessert</h1>
+<h1>Rate My Bakery</h1>
+
+<!-- Start Confirmation -->
+<div class="box" id="start">
+  <h3>Are you sure you want to submit a rating?</h3>
+  <p>Once you start, you will go through all 4 categories.</p>
+  <button onclick="next('taste')">Yes, Start</button>
+</div>
 
 <!-- Taste -->
-<div class="box" id="taste">
+<div class="box hidden" id="taste">
 <h3>Taste</h3>
 <div class="stars">
 <input type="radio" name="taste" id="taste5" value="5"><label for="taste5">★</label>
@@ -155,20 +163,16 @@ textarea { width: 100%; height: 80px; margin-top: 10px; padding: 8px; border-rad
 
 <!-- Confirm -->
 <div class="box hidden" id="confirm">
-  <!-- Back arrow -->
-  <button class="back-btn" onclick="back('comments')">&#8592;</button>
-
-  <h3>Are you sure?</h3>
-  <p>Double check your ratings before submitting.</p>
-
-  <!-- Warning message for missing ratings -->
-  <div id="warning" style="color:red; margin-top:10px;"></div>
-
-  <button onclick="submitFinal()">Submit Final</button>
+<button class="back-btn" onclick="back('comments')">&#8592;</button>
+<h3>Are you sure?</h3>
+<p>Double check your ratings before submitting.</p>
+<div id="warning" style="color:red; margin-top:10px;"></div>
+<button onclick="submitFinal()">Submit Final</button>
 </div>
 
-<!-- Success -->
+<!-- Done -->
 <div class="box hidden" id="done">
+<button class="back-btn" onclick="back('confirm')">&#8592;</button>
 <h3>Thanks for your feedback!</h3>
 </div>
 
@@ -186,12 +190,23 @@ function back(id) {
 
 function submitFinal() {
     let cats = ["taste","packaging","service","buyagain"];
-    for (let c of cats) {
+    let allRated = true;
+
+    cats.forEach(c => {
         if (!document.querySelector(`input[name="${c}"]:checked`)) {
-            alert("Please rate all 4 categories!");
-            return;
+            allRated = false;
         }
+    });
+
+    const warning = document.getElementById("warning");
+
+    if (!allRated) {
+        warning.textContent = "Please rate all 4 categories!";
+        return;
+    } else {
+        warning.textContent = "";
     }
+
     next("done");
 }
 </script>
