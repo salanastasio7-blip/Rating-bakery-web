@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rate My Bakery</title>
+<title>Rate the treats</title>
 
 <style>
 body {
@@ -24,37 +24,35 @@ body {
 }
 
 .box {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px 25px;
-    border-radius: 16px;
+    background: rgba(255,255,255,0.95);
+    padding: 30px;
+    border-radius: 18px;
     text-align: center;
     position: relative;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
 h1 {
     color: white;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 32px;
+    margin-bottom: 20px;
 }
 
 .stars {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .stars input {
-    display: none; /* hide the radio circles */
+    display: none;
 }
 
 .stars label {
-    font-size: 40px;
+    font-size: 42px;
     color: #ccc;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: 0.2s;
 }
 
 .stars input:checked ~ label,
@@ -65,28 +63,44 @@ h1 {
 
 button {
     margin-top: 20px;
-    padding: 14px 28px;
+    padding: 12px 22px;
     border: none;
-    border-radius: 12px;
-    background: black;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #000, #333);
     color: white;
+    font-size: 17px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
 }
 
 button:hover {
-    background: #333;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(0.96);
 }
 
 .back-btn {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    background: none;
+    top: 10px;
+    left: 10px;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+
+    font-size: 28px;
+    font-weight: 900;
     border: none;
-    font-size: 40px;
-    font-weight: bold;
     cursor: pointer;
     color: black;
 }
@@ -97,13 +111,10 @@ button:hover {
 
 textarea {
     width: 100%;
-    min-height: 60px;
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: vertical;
     margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 #warning {
@@ -112,131 +123,119 @@ textarea {
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
 <h1>Rate My Bakery</h1>
 
-<!-- Start Confirmation -->
 <div class="box" id="start">
-  <h3>Are you sure you want to submit a rating?</h3>
-  <p>Once you start, you will go through all 4 categories.</p>
-  <button onclick="next('taste')">Yes, Start</button>
+  <h3>Start rating?</h3>
+  <button onclick="next('taste')">Start</button>
 </div>
 
-<!-- Taste -->
 <div class="box hidden" id="taste">
 <h3>Taste</h3>
 <div class="stars">
-<input type="radio" name="taste" id="taste5" value="5"><label for="taste5">★</label>
-<input type="radio" name="taste" id="taste4" value="4"><label for="taste4">★</label>
-<input type="radio" name="taste" id="taste3" value="3"><label for="taste3">★</label>
-<input type="radio" name="taste" id="taste2" value="2"><label for="taste2">★</label>
-<input type="radio" name="taste" id="taste1" value="1"><label for="taste1">★</label>
+<input type="radio" name="taste" id="t5"><label for="t5">★</label>
+<input type="radio" name="taste" id="t4"><label for="t4">★</label>
+<input type="radio" name="taste" id="t3"><label for="t3">★</label>
+<input type="radio" name="taste" id="t2"><label for="t2">★</label>
+<input type="radio" name="taste" id="t1"><label for="t1">★</label>
 </div>
 </div>
 
-<!-- Packaging -->
 <div class="box hidden" id="packaging">
-<button class="back-btn" onclick="back('taste')">&#8592;</button>
+<button class="back-btn" onclick="back('taste')">⬅</button>
 <h3>Packaging</h3>
 <div class="stars">
-<input type="radio" name="packaging" id="packaging5" value="5"><label for="packaging5">★</label>
-<input type="radio" name="packaging" id="packaging4" value="4"><label for="packaging4">★</label>
-<input type="radio" name="packaging" id="packaging3" value="3"><label for="packaging3">★</label>
-<input type="radio" name="packaging" id="packaging2" value="2"><label for="packaging2">★</label>
-<input type="radio" name="packaging" id="packaging1" value="1"><label for="packaging1">★</label>
+<input type="radio" name="packaging" id="p5"><label for="p5">★</label>
+<input type="radio" name="packaging" id="p4"><label for="p4">★</label>
+<input type="radio" name="packaging" id="p3"><label for="p3">★</label>
+<input type="radio" name="packaging" id="p2"><label for="p2">★</label>
+<input type="radio" name="packaging" id="p1"><label for="p1">★</label>
 </div>
 </div>
 
-<!-- Service -->
 <div class="box hidden" id="service">
-<button class="back-btn" onclick="back('packaging')">&#8592;</button>
+<button class="back-btn" onclick="back('packaging')">⬅</button>
 <h3>Service</h3>
 <div class="stars">
-<input type="radio" name="service" id="service5" value="5"><label for="service5">★</label>
-<input type="radio" name="service" id="service4" value="4"><label for="service4">★</label>
-<input type="radio" name="service" id="service3" value="3"><label for="service3">★</label>
-<input type="radio" name="service" id="service2" value="2"><label for="service2">★</label>
-<input type="radio" name="service" id="service1" value="1"><label for="service1">★</label>
+<input type="radio" name="service" id="s5"><label for="s5">★</label>
+<input type="radio" name="service" id="s4"><label for="s4">★</label>
+<input type="radio" name="service" id="s3"><label for="s3">★</label>
+<input type="radio" name="service" id="s2"><label for="s2">★</label>
+<input type="radio" name="service" id="s1"><label for="s1">★</label>
 </div>
 </div>
 
-<!-- Buy Again -->
 <div class="box hidden" id="buyagain">
-<button class="back-btn" onclick="back('service')">&#8592;</button>
-<h3>Would you buy again?</h3>
+<button class="back-btn" onclick="back('service')">⬅</button>
+<h3>Buy again?</h3>
 <div class="stars">
-<input type="radio" name="buyagain" id="buyagain5" value="5"><label for="buyagain5">★</label>
-<input type="radio" name="buyagain" id="buyagain4" value="4"><label for="buyagain4">★</label>
-<input type="radio" name="buyagain" id="buyagain3" value="3"><label for="buyagain3">★</label>
-<input type="radio" name="buyagain" id="buyagain2" value="2"><label for="buyagain2">★</label>
-<input type="radio" name="buyagain" id="buyagain1" value="1"><label for="buyagain1">★</label>
+<input type="radio" name="buyagain" id="b5"><label for="b5">★</label>
+<input type="radio" name="buyagain" id="b4"><label for="b4">★</label>
+<input type="radio" name="buyagain" id="b3"><label for="b3">★</label>
+<input type="radio" name="buyagain" id="b2"><label for="b2">★</label>
+<input type="radio" name="buyagain" id="b1"><label for="b1">★</label>
 </div>
 </div>
 
-<!-- Comments -->
 <div class="box hidden" id="comments">
-<button class="back-btn" onclick="back('buyagain')">&#8592;</button>
+<button class="back-btn" onclick="back('buyagain')">⬅</button>
 <h3>Comments</h3>
-<textarea id="text" placeholder="Write something..."></textarea>
-<button onclick="next('confirm')">Submit</button>
+<textarea></textarea>
+<button onclick="next('confirm')">Next</button>
 </div>
 
-<!-- Confirm -->
 <div class="box hidden" id="confirm">
-<button class="back-btn" onclick="back('comments')">&#8592;</button>
-<h3>Are you sure?</h3>
-<p>Double check your ratings before submitting.</p>
+<button class="back-btn" onclick="back('comments')">⬅</button>
+<h3>Confirm</h3>
+<p>Check your ratings</p>
 <div id="warning"></div>
-<button onclick="submitFinal()">Submit Final</button>
+<button onclick="submitFinal()">Submit</button>
 </div>
 
-<!-- Done -->
 <div class="box hidden" id="done">
-<h3>Thanks for your feedback!</h3>
+<h3>Thanks!</h3>
 </div>
 
 </div>
 
 <script>
-// Function to show a box and hide others
 function next(id) {
     document.querySelectorAll(".box").forEach(b => b.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
 }
+
 function back(id) {
     next(id);
 }
 
-// When a star is clicked, go to next category automatically
 document.querySelectorAll(".stars input").forEach(input => {
     input.addEventListener("change", () => {
-        const currentBox = input.closest(".box");
-        let nextBoxId = "";
-        if (currentBox.id === "taste") nextBoxId = "packaging";
-        else if (currentBox.id === "packaging") nextBoxId = "service";
-        else if (currentBox.id === "service") nextBoxId = "buyagain";
-        else if (currentBox.id === "buyagain") nextBoxId = "comments";
-        if (nextBoxId) next(nextBoxId);
+        const id = input.closest(".box").id;
+        if (id === "taste") next("packaging");
+        else if (id === "packaging") next("service");
+        else if (id === "service") next("buyagain");
+        else if (id === "buyagain") next("comments");
     });
 });
 
-// Final submission check
 function submitFinal() {
     let cats = ["taste","packaging","service","buyagain"];
-    let allRated = true;
+    let ok = true;
+
     cats.forEach(c => {
-        if (!document.querySelector(`input[name="${c}"]:checked`)) allRated = false;
+        if (!document.querySelector(`input[name="${c}"]:checked`)) ok = false;
     });
-    const warning = document.getElementById("warning");
-    if (!allRated) {
-        warning.textContent = "Please rate all 4 categories!";
+
+    if (!ok) {
+        document.getElementById("warning").textContent = "Rate all first!";
         return;
-    } else {
-        warning.textContent = "";
     }
+
     next("done");
 }
 </script>
