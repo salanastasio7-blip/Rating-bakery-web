@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rate My Food</title>
 <style>
-/* Body with background image */
 body {
     font-family: Arial, sans-serif;
     background-image: url("https://i.ytimg.com/vi/0L38Z9hIi5s/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CL");
@@ -19,30 +18,32 @@ body {
     align-items: center;
 }
 
-/* Title */
 h1 {
     margin-top: 20px;
-    color: white;  /* changed from red to white */
+    color: white;
     text-align: center;
 }
 
-/* Rating sections */
 .rating-section {
     margin: 15px 0;
     width: 90%;
     max-width: 400px;
-    background: rgba(255, 255, 255, 0.85); /* semi-transparent */
+    background: rgba(255, 255, 255, 0.85);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none; /* hide all initially */
+}
+
+.rating-section.active {
+    display: block; /* show only active section */
 }
 
 .rating-section h3 {
     margin-bottom: 10px;
-    color: black;  /* headings inside sections are black */
+    color: black;
 }
 
-/* Star rating */
 .stars {
     display: flex;
     flex-direction: row-reverse;
@@ -60,10 +61,9 @@ h1 {
 .stars input:checked ~ label,
 .stars label:hover,
 .stars label:hover ~ label {
-    color: #ffc107;  /* stars stay yellow when selected/hovered */
+    color: #ffc107;
 }
 
-/* Comments textarea */
 textarea {
     width: 100%;
     resize: vertical;
@@ -75,22 +75,20 @@ textarea {
     border: 1px solid #ccc;
 }
 
-/* Submit button */
 button {
     margin: 20px;
     padding: 12px 25px;
     font-size: 16px;
     border: none;
     border-radius: 8px;
-    background-color: #444;  /* neutral dark color instead of red */
+    background-color: #444;
     color: white;
     cursor: pointer;
 }
 button:hover {
-    background-color: #222;  /* darker on hover */
+    background-color: #222;
 }
 
-/* Thank you message */
 .thankyou {
     display: none;
     margin-top: 20px;
@@ -104,7 +102,7 @@ button:hover {
 
 <h1>Rate My Food</h1>
 
-<div class="rating-section">
+<div class="rating-section active" id="section-taste">
     <h3>Taste</h3>
     <div class="stars" data-category="taste">
         <input type="radio" name="taste" id="taste5" value="5"><label for="taste5">&#9733;</label>
@@ -113,9 +111,10 @@ button:hover {
         <input type="radio" name="taste" id="taste2" value="2"><label for="taste2">&#9733;</label>
         <input type="radio" name="taste" id="taste1" value="1"><label for="taste1">&#9733;</label>
     </div>
+    <button onclick="nextSection('taste')">Next</button>
 </div>
 
-<div class="rating-section">
+<div class="rating-section" id="section-packaging">
     <h3>Packaging</h3>
     <div class="stars" data-category="packaging">
         <input type="radio" name="packaging" id="packaging5" value="5"><label for="packaging5">&#9733;</label>
@@ -124,9 +123,10 @@ button:hover {
         <input type="radio" name="packaging" id="packaging2" value="2"><label for="packaging2">&#9733;</label>
         <input type="radio" name="packaging" id="packaging1" value="1"><label for="packaging1">&#9733;</label>
     </div>
+    <button onclick="nextSection('packaging')">Next</button>
 </div>
 
-<div class="rating-section">
+<div class="rating-section" id="section-service">
     <h3>Service</h3>
     <div class="stars" data-category="service">
         <input type="radio" name="service" id="service5" value="5"><label for="service5">&#9733;</label>
@@ -135,9 +135,10 @@ button:hover {
         <input type="radio" name="service" id="service2" value="2"><label for="service2">&#9733;</label>
         <input type="radio" name="service" id="service1" value="1"><label for="service1">&#9733;</label>
     </div>
+    <button onclick="nextSection('service')">Next</button>
 </div>
 
-<div class="rating-section">
+<div class="rating-section" id="section-buyagain">
     <h3>Would you buy again?</h3>
     <div class="stars" data-category="buyagain">
         <input type="radio" name="buyagain" id="buyagain5" value="5"><label for="buyagain5">&#9733;</label>
@@ -146,19 +147,34 @@ button:hover {
         <input type="radio" name="buyagain" id="buyagain2" value="2"><label for="buyagain2">&#9733;</label>
         <input type="radio" name="buyagain" id="buyagain1" value="1"><label for="buyagain1">&#9733;</label>
     </div>
+    <button onclick="nextSection('buyagain')">Next</button>
 </div>
 
-<div class="rating-section">
+<div class="rating-section" id="section-comments">
     <h3>Comments (Optional)</h3>
     <textarea id="comments" placeholder="Write something..."></textarea>
+    <button onclick="submitRatings()">Submit</button>
 </div>
 
-<button onclick="submitRatings()">Submit</button>
 <div class="thankyou">Thanks for your feedback!</div>
 
 <script>
+const categories = ["taste", "packaging", "service", "buyagain"];
+
+function nextSection(cat) {
+    const section = document.getElementById("section-" + cat);
+    const nextIndex = categories.indexOf(cat) + 1;
+    section.classList.remove("active");
+
+    if (nextIndex < categories.length) {
+        const nextSectionId = "section-" + categories[nextIndex];
+        document.getElementById(nextSectionId).classList.add("active");
+    } else {
+        document.getElementById("section-comments").classList.add("active");
+    }
+}
+
 function submitRatings() {
-    const categories = ["taste", "packaging", "service", "buyagain"];
     let data = {};
     let allRated = true;
 
@@ -189,6 +205,7 @@ function submitRatings() {
         if (checked) checked.checked = false;
     });
     document.getElementById("comments").value = "";
+    document.getElementById("section-comments").classList.remove("active");
 }
 </script>
 
