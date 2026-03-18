@@ -46,6 +46,10 @@ h1 {
     gap: 10px;
 }
 
+.stars input {
+    display: none; /* hide the radio circles */
+}
+
 .stars label {
     font-size: 40px;
     color: #ccc;
@@ -131,7 +135,6 @@ textarea {
 <input type="radio" name="taste" id="taste2" value="2"><label for="taste2">★</label>
 <input type="radio" name="taste" id="taste1" value="1"><label for="taste1">★</label>
 </div>
-<button onclick="next('packaging')">Next</button>
 </div>
 
 <!-- Packaging -->
@@ -145,7 +148,6 @@ textarea {
 <input type="radio" name="packaging" id="packaging2" value="2"><label for="packaging2">★</label>
 <input type="radio" name="packaging" id="packaging1" value="1"><label for="packaging1">★</label>
 </div>
-<button onclick="next('service')">Next</button>
 </div>
 
 <!-- Service -->
@@ -159,7 +161,6 @@ textarea {
 <input type="radio" name="service" id="service2" value="2"><label for="service2">★</label>
 <input type="radio" name="service" id="service1" value="1"><label for="service1">★</label>
 </div>
-<button onclick="next('buyagain')">Next</button>
 </div>
 
 <!-- Buy Again -->
@@ -173,7 +174,6 @@ textarea {
 <input type="radio" name="buyagain" id="buyagain2" value="2"><label for="buyagain2">★</label>
 <input type="radio" name="buyagain" id="buyagain1" value="1"><label for="buyagain1">★</label>
 </div>
-<button onclick="next('comments')">Next</button>
 </div>
 
 <!-- Comments -->
@@ -201,34 +201,42 @@ textarea {
 </div>
 
 <script>
+// Function to show a box and hide others
 function next(id) {
     document.querySelectorAll(".box").forEach(b => b.classList.add("hidden"));
     document.getElementById(id).classList.remove("hidden");
 }
-
 function back(id) {
     next(id);
 }
 
+// When a star is clicked, go to next category automatically
+document.querySelectorAll(".stars input").forEach(input => {
+    input.addEventListener("change", () => {
+        const currentBox = input.closest(".box");
+        let nextBoxId = "";
+        if (currentBox.id === "taste") nextBoxId = "packaging";
+        else if (currentBox.id === "packaging") nextBoxId = "service";
+        else if (currentBox.id === "service") nextBoxId = "buyagain";
+        else if (currentBox.id === "buyagain") nextBoxId = "comments";
+        if (nextBoxId) next(nextBoxId);
+    });
+});
+
+// Final submission check
 function submitFinal() {
     let cats = ["taste","packaging","service","buyagain"];
     let allRated = true;
-
     cats.forEach(c => {
-        if (!document.querySelector(`input[name="${c}"]:checked`)) {
-            allRated = false;
-        }
+        if (!document.querySelector(`input[name="${c}"]:checked`)) allRated = false;
     });
-
     const warning = document.getElementById("warning");
-
     if (!allRated) {
         warning.textContent = "Please rate all 4 categories!";
         return;
     } else {
         warning.textContent = "";
     }
-
     next("done");
 }
 </script>
